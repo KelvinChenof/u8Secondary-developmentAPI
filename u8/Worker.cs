@@ -5,7 +5,7 @@ using System.Threading;
 namespace U8OmApi {
  // 每次请求单独登录、执行并退出，隔离 U8 SDK 的进程内资源。
  internal static class Worker {
-  internal static string JournalRoot {get{return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),"ExampleOrg","U8OmApi","001-2026");}}
+  internal static string JournalRoot {get{return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),"ExampleOrg","U8OmApi","999-2026");}}
   internal static Settings ReadSettings(){
    string path=Environment.GetEnvironmentVariable("U8_OM_SETTINGS_FILE");
    if(String.IsNullOrEmpty(path))path=Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"..","settings.json");
@@ -16,7 +16,7 @@ namespace U8OmApi {
    Console.OutputEncoding=new UTF8Encoding(false);WorkerRequest request=null;WorkerReply reply=null;
    bool owned=false;
    // 与主进程锁分开：此锁串行化同账套的实际原生操作。
-   using(var mutex=new Mutex(false,@"Global\ExampleOrg-U8OmApi-001-2026")){
+   using(var mutex=new Mutex(false,@"Global\ExampleOrg-U8OmApi-999-2026")){
     try{
      string input=Console.ReadLine();if(input==null||input.Length>2048)throw new ApiError("WORKER_INPUT_INVALID");
      request=Wire.Json.Deserialize<WorkerRequest>(input);

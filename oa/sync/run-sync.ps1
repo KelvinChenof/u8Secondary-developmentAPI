@@ -1,7 +1,7 @@
 ﻿$ErrorActionPreference='Stop'
 $ProgressPreference='SilentlyContinue'
 $root=Split-Path -Parent $MyInvocation.MyCommand.Path
-$mutex=New-Object Threading.Mutex($false,'Global\ExampleOrg-OmDraftSync-App6-Flow31')
+$mutex=New-Object Threading.Mutex($false,'Global\ExampleOrg-OmDraftSync-App1001-Flow2001')
 $owned=$false
 try {
  try{$owned=$mutex.WaitOne(0)}catch [Threading.AbandonedMutexException]{$owned=$true}
@@ -16,7 +16,7 @@ try {
  $info.Arguments='-d display_errors=0 -d log_errors=0 "'+(Join-Path $root 'sync.php')+'"'
  $info.WorkingDirectory='D:/oa-server/www/eoffice/server'
  $info.UseShellExecute=$false;$info.CreateNoWindow=$true;$info.RedirectStandardOutput=$true;$info.RedirectStandardError=$true
- $info.EnvironmentVariables['U8_OM_API_APP_ID']='6';$info.EnvironmentVariables['U8_OM_API_URL']='http://192.0.2.10:18766'
+ $info.EnvironmentVariables['U8_OM_API_APP_ID']='1001';$info.EnvironmentVariables['U8_OM_API_URL']='http://192.0.2.10:18080'
  $info.EnvironmentVariables['U8_OM_API_HMAC_KEY']=$key;$info.EnvironmentVariables['U8_OM_API_READ_ENABLED']='1';$info.EnvironmentVariables['U8_OM_SYNC_ENABLED']='1';$info.EnvironmentVariables['U8_OM_API_AUDIT_ENABLED']='0'
  $proc=New-Object Diagnostics.Process;$proc.StartInfo=$info
  if(!$proc.Start()){throw 'OM_PHP_START_FAILED'}

@@ -2,9 +2,9 @@
 
 | 方法 | 路径 | 用途 |
 | --- | --- | --- |
-| GET | `/api/omorder/list?app_id=6&after=0` | 分页读取委外开立单据 |
-| GET | `/api/omorder/detail?app_id=6&id=<单号>` | 读取指定订单；单号保留前导零 |
-| GET | `/api/omorder/operation?app_id=6&id=<单号>&oa_run_id=<运行号>` | 查询原审核操作的持久化记录，不登录 U8 |
+| GET | `/api/omorder/list?app_id=1001&after=0` | 分页读取委外开立单据 |
+| GET | `/api/omorder/detail?app_id=1001&id=<单号>` | 读取指定订单；单号保留前导零 |
+| GET | `/api/omorder/operation?app_id=1001&id=<单号>&oa_run_id=<运行号>` | 查询原审核操作的持久化记录，不登录 U8 |
 | POST | `/api/omorder/audit` | 审核；正文包含 `app_id`、`code`、`oa_run_id` |
 
 请求须通过来源 IP 限制及 HMAC-SHA256 验签。请求头为 `X-OM-Time`、`X-OM-Nonce`、`X-OM-Signature`；时间为 Unix 秒，时间误差最多五分钟，同一 nonce 不允许重放。

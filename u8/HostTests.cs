@@ -7,7 +7,7 @@ namespace U8OmApi
     internal static class Worker
     {
         internal static string JournalRoot;
-        internal static Settings ReadSettings() { return new Settings { oa_app_id = 6 }; }
+        internal static Settings ReadSettings() { return new Settings { oa_app_id = 1001 }; }
     }
     internal static class HostTests
     {
@@ -38,12 +38,12 @@ namespace U8OmApi
                 var request = Wire.Json.Deserialize<WorkerRequest>(Console.ReadLine());
                 File.AppendAllText(TraceFile, request.Code + Environment.NewLine);
                 Console.WriteLine("WORKER_RESULT=" + Wire.Json.Serialize(new WorkerReply { Id = request.Id, Error = "0", Failure = null, Payload = Wire.Json.Serialize(new AuditRecord {
-                    code = request.Code, moid = "1001", app_id = 6, oa_run_id = request.Run, status = "audited"
+                    code = request.Code, moid = "1001", app_id = 1001, oa_run_id = request.Run, status = "audited"
                 }) }));
                 return 0;
             }
             string root = Path.Combine(Path.GetTempPath(), "u8-om-host-tests-" + Guid.NewGuid().ToString("N"));
-            foreach (string code in new[] { "0000000059", "0000000060" })
+            foreach (string code in new[] { "0000009001", "0000009002" })
             {
                 Scope(root, "new-" + code);
                 var request = new WorkerRequest { Operation = "audit", Code = code, Run = 101 };
@@ -53,13 +53,13 @@ namespace U8OmApi
 
                 Scope(root, "result-" + code);
                 var store = new AuditStore(Worker.JournalRoot);
-                store.Claim(new AuditRecord { code = code, moid = "1001", app_id = 6, oa_run_id = 101, status = "pending" });
-                store.Complete(new AuditRecord { code = code, moid = "1001", app_id = 6, oa_run_id = 101, status = "audited" });
+                store.Claim(new AuditRecord { code = code, moid = "1001", app_id = 1001, oa_run_id = 101, status = "pending" });
+                store.Complete(new AuditRecord { code = code, moid = "1001", app_id = 1001, oa_run_id = 101, status = "audited" });
                 Check(((AuditRecord)IsolatedHost.Dispatch(request)).status == "audited" && WorkerCalls == 0, "existing result skips worker " + code);
                 Reject(delegate { IsolatedHost.Dispatch(new WorkerRequest { Operation = "audit", Code = code, Run = 102 }); }, "DOCUMENT_ALREADY_CLAIMED", "cross-run claim remains blocked " + code);
 
                 Scope(root, "pending-" + code);
-                new AuditStore(Worker.JournalRoot).Claim(new AuditRecord { code = code, moid = "1001", app_id = 6, oa_run_id = 101, status = "pending" });
+                new AuditStore(Worker.JournalRoot).Claim(new AuditRecord { code = code, moid = "1001", app_id = 1001, oa_run_id = 101, status = "pending" });
                 Check(((AuditRecord)IsolatedHost.Dispatch(request)).status == "outcome_unknown" && WorkerCalls == 0, "pending claim skips worker " + code);
 
                 Scope(root, "latch-" + code);

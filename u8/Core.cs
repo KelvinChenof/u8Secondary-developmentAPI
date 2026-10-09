@@ -23,9 +23,9 @@ namespace U8OmApi
         internal static Dictionary<string, bool> Compare(IDictionary<string, string> values, string date)
         {
             Dictionary<string, string> expected = new Dictionary<string, string> {
-                {"returned_sub_id", "AS"}, {"returned_account_id", "001"}, {"returned_year", "2026"},
+                {"returned_sub_id", "AS"}, {"returned_account_id", "999"}, {"returned_year", "2026"},
                 {"returned_business_date", date}, {"returned_server", "192.0.2.11"},
-                {"login_sub_id", "AS"}, {"login_account_id", "001"}, {"login_year", "2026"},
+                {"login_sub_id", "AS"}, {"login_account_id", "999"}, {"login_year", "2026"},
                 {"login_server", "192.0.2.11"}
             };
             Dictionary<string, bool> matches = new Dictionary<string, bool>();
@@ -255,7 +255,7 @@ namespace U8OmApi
     {
         private readonly string root;
         internal AuditStore(string root) { this.root = root; }
-        private string Stem(string code) { return Path.Combine(root, Wire.Hash("001|2026|" + Wire.Code(code))); }
+        private string Stem(string code) { return Path.Combine(root, Wire.Hash("999|2026|" + Wire.Code(code))); }
         internal AuditRecord Read(string code)
         {
             string stem = Stem(code);

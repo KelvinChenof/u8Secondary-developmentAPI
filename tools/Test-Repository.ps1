@@ -11,7 +11,7 @@ foreach($file in (Get-ChildItem -LiteralPath (Join-Path $root 'oa'),(Join-Path $
  & $Php -n -l $file.FullName
  if($LASTEXITCODE){throw ('PHP_LINT_FAILED: '+$file.FullName)}
 }
-foreach($name in @('context-tests.php','test-historical-order-context.php')){
+foreach($name in @('context-tests.php','test-historical-order-context.php','test-example-mapping.php')){
  & $Php -n (Join-Path $root ('tests/oa/'+$name))
  if($LASTEXITCODE){throw ('PHP_TEST_FAILED: '+$name)}
 }

@@ -3,15 +3,15 @@ namespace ExampleOrg\OmProduction;
 require_once __DIR__.'/OmDraftOpenApi.php';
 require_once __DIR__.'/SupplierContact.php';
 
-/** 此适配器仅用于应用 6、流程 31 的委外调度。 */
+/** 此适配器仅用于应用 1001、流程 2001 的委外调度。 */
 final class DraftSync extends \Ext\U8Open\service\U8ScheduleService
 {
  private $supplierContact;
  protected function createOpenApiService(){return new OmDraftOpenApi();}
  public function buildFormData($type,$orderDetail,$flowId,$flowConfig)
  {
-  if($type!=='outsourceOrder'||$flowId!==31)throw new \RuntimeException('OM_DRAFT_SCOPE_INVALID');
-  if(($flowConfig['u8MainField']['cVenPhone'] ?? '')!=='DATA_175'||($flowConfig['u8MainField']['cVenPerson'] ?? '')!=='DATA_174')throw new \RuntimeException('OM_CONTACT_MAPPING_CHANGED');
+  if($type!=='outsourceOrder'||$flowId!==2001)throw new \RuntimeException('OM_DRAFT_SCOPE_INVALID');
+  if(($flowConfig['u8MainField']['cVenPhone'] ?? '')!=='DATA_1016'||($flowConfig['u8MainField']['cVenPerson'] ?? '')!=='DATA_1015')throw new \RuntimeException('OM_CONTACT_MAPPING_CHANGED');
   if(!$this->supplierContact)$this->supplierContact=new SupplierContact();
   $contact=$this->supplierContact->lookup($orderDetail);
   $orderDetail['cVenPhone']=$contact['mobile'];
@@ -25,15 +25,15 @@ final class DraftSync extends \Ext\U8Open\service\U8ScheduleService
  public static function initializeContractName(array &$form)
  {
   $total=0.0;
-  foreach($form['DATA_152'] ?? [] as $entry){
-   $value=$entry['DATA_158'] ?? null;
+  foreach($form['DATA_1002'] ?? [] as $entry){
+   $value=$entry['DATA_1008'] ?? null;
    if(!is_numeric($value))throw new \RuntimeException('OM_CONTRACT_AMOUNT_INVALID');
    $total+=(float)$value;
   }
   if(!is_finite($total))throw new \RuntimeException('OM_CONTRACT_AMOUNT_INVALID');
   $amount=rtrim(rtrim(number_format($total,8,'.',''),'0'),'.');
   if($amount==='-0')$amount='0';
-  $form['DATA_163']=$amount;
-  $form['DATA_161']=($form['DATA_229'] ?? '').','.$amount.','.($form['DATA_193'] ?? '');
+  $form['DATA_1013']=$amount;
+  $form['DATA_1011']=($form['DATA_1025'] ?? '').','.$amount.','.($form['DATA_1019'] ?? '');
  }
 }

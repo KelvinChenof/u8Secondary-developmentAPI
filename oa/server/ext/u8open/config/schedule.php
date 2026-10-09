@@ -1,7 +1,7 @@
 <?php
 
 /**
- * U8 OpenAPI 定时同步配置
+ * U8 OpenAPI 示例定时同步配置；确认流程及字段映射后再启用。
  *
  * times: 每日触发时间
  * jobs:  同步任务列表（多应用由 runAllApps 查询应用表后依次执行）
@@ -21,8 +21,8 @@ return [
     'jobs' => [
         [
             'type' => 'purchaseOrder',
-            'flow_id' => 1,
-            'enabled' => true,
+            'flow_id' => 2002,
+            'enabled' => false,
             'param' => [
                 'state' => '开立',
                 'limit' => 100,
@@ -38,7 +38,7 @@ return [
         ],
         [
             'type' => 'outsourceOrder',
-            'flow_id' => 31,
+            'flow_id' => 2001,
             'enabled' => false,
             'param' => [
                 'state' => '开立',
@@ -56,8 +56,8 @@ return [
         ],
         [
             'type' => 'payrequest',
-            'flow_id' => 10,  // 付款申请流程 ID
-            'enabled' => true,
+            'flow_id' => 2003,  // 付款申请流程 ID
+            'enabled' => false,
             'param' => [
                 'iverifystate' => 1,
                 'limit' => 100,

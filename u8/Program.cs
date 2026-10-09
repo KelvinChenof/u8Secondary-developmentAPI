@@ -40,7 +40,7 @@ namespace U8OmApi
             }
             bool owned=false;
             // 同一账套只允许一个接口主进程，防止多个实例同时接单。
-            using(var mutex=new Mutex(false,@"Global\ExampleOrg-U8OmApi-IsolatedHost-001-2026")) {
+            using(var mutex=new Mutex(false,@"Global\ExampleOrg-U8OmApi-IsolatedHost-999-2026")) {
                 try {
                     try{owned=mutex.WaitOne(0);}catch(AbandonedMutexException){owned=true;}
                     if(!owned)throw new ApiError("ANOTHER_ISOLATED_HOST_IS_RUNNING");

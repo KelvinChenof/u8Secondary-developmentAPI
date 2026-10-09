@@ -6,7 +6,7 @@ use Ext\U8Open\service\PurchaseorderService;
 use Illuminate\Support\Facades\DB;
 
 /**
- * 校验回调信封，只接受委外流程 31 和正整数运行编号。
+ * 校验回调信封，只接受委外流程 2001 和正整数运行编号。
  *
  * @throws InvalidArgumentException
  */
@@ -17,7 +17,7 @@ function outsourceOrderValidateEnvelope(array $request): int
         throw new InvalidArgumentException('回调流程无效');
     }
 
-    if ((string) $flowId !== '31') {
+    if ((string) $flowId !== '2001') {
         throw new InvalidArgumentException('回调流程无效');
     }
 
@@ -70,22 +70,22 @@ function outsourceOrderBuildAuditContext(array $sync, array $form): array
     }
 
     $formFlowId = $form['flow_id'] ?? null;
-    if ((!is_int($formFlowId) && !is_string($formFlowId)) || (string) $formFlowId !== '31') {
+    if ((!is_int($formFlowId) && !is_string($formFlowId)) || (string) $formFlowId !== '2001') {
         throw new InvalidArgumentException('表单流程不匹配');
     }
 
-    $formAppId = $form['DATA_236'] ?? null;
+    $formAppId = $form['DATA_1032'] ?? null;
     if ((!is_int($formAppId) && !is_string($formAppId)) || (string) $formAppId !== (string) $appId) {
         throw new InvalidArgumentException('表单应用编号不匹配');
     }
 
-    $formOrderNo = $form['DATA_162'] ?? null;
+    $formOrderNo = $form['DATA_1012'] ?? null;
     if (!is_scalar($formOrderNo) || (string) $formOrderNo !== $orderNo) {
         throw new InvalidArgumentException('表单订单号不匹配');
     }
 
-    $isOutsource = ($form['DATA_263'] ?? null) === '委外'
-        || ($form['DATA_237'] ?? null) === '委外加工';
+    $isOutsource = ($form['DATA_1040'] ?? null) === '委外'
+        || ($form['DATA_1033'] ?? null) === '委外加工';
     if (!$isOutsource) {
         throw new InvalidArgumentException('表单不是委外订单');
     }
@@ -214,7 +214,7 @@ function outsourceOrderLoadSyncRecord(int $runId): array
     $record = DB::table('u8_openapi_sync_order')
         ->where('run_id', $runId)
         ->where('order_type', 'outsourceOrder')
-        ->where('flow_id', 31)
+        ->where('flow_id', 2001)
         ->where('sync_result', 1)
         ->first(['app_id', 'order_no', 'run_id']);
 
@@ -260,21 +260,21 @@ function outsourceOrderValidateCompletedFlow(array $flow): array
 function outsourceOrderLoadFormRecord(int $runId): array
 {
     $record = DB::table('flow_run')
-        ->join('form_data_429', 'flow_run.data_id', '=', 'form_data_429.data_id')
+        ->join('form_data_3001', 'flow_run.data_id', '=', 'form_data_3001.data_id')
         ->where('flow_run.run_id', $runId)
-        ->where('flow_run.flow_id', 31)
+        ->where('flow_run.flow_id', 2001)
         ->whereNull('flow_run.deleted_at')
-        ->whereNull('form_data_429.deleted_at')
+        ->whereNull('form_data_3001.deleted_at')
         ->first([
             'flow_run.flow_id',
             'flow_run.current_step',
             'flow_run.transact_time',
             'flow_run.is_cancel',
             'flow_run.is_effect',
-            'form_data_429.DATA_236',
-            'form_data_429.DATA_162',
-            'form_data_429.DATA_263',
-            'form_data_429.DATA_237',
+            'form_data_3001.DATA_1032',
+            'form_data_3001.DATA_1012',
+            'form_data_3001.DATA_1040',
+            'form_data_3001.DATA_1033',
         ]);
 
     if ($record === null) {

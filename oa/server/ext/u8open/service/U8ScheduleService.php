@@ -598,7 +598,7 @@ class U8ScheduleService
 
     protected function claimOutsourceOrder($flowId, string $orderId): bool
     {
-        if ((int) $flowId !== 31 || !$this->appId) {
+        if ((int) $flowId !== 2001 || !$this->appId) {
             throw new \RuntimeException('OM_CLAIM_IDENTITY_INVALID');
         }
         $now = date('Y-m-d H:i:s');
@@ -606,12 +606,12 @@ class U8ScheduleService
             // 使用既有唯一索引 uk_app_type_no_flow 防止多个进程重复领取。
             return DB::table(self::SYNC_TABLE)->insert([
                 'app_id' => $this->appId, 'order_type' => 'outsourceOrder', 'order_no' => $orderId,
-                'flow_id' => 31, 'run_id' => null, 'sync_result' => 0,
+                'flow_id' => 2001, 'run_id' => null, 'sync_result' => 0,
                 'fail_reason' => 'OM_CREATE_CLAIMED_REQUIRES_REVIEW', 'sync_time' => $now,
                 'created_at' => $now, 'updated_at' => $now,
             ]);
         } catch (\Throwable $failure) {
-            $this->logSyncSummary('outsource_claim_failed_or_exists', 'outsourceOrder', 31, $orderId);
+            $this->logSyncSummary('outsource_claim_failed_or_exists', 'outsourceOrder', 2001, $orderId);
             return false;
         }
     }
@@ -770,7 +770,7 @@ class U8ScheduleService
             throw new \RuntimeException('OM_SYNC_DISABLED');
         }
         $id = filter_var($appId, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
-        if (!$id || $id !== ($config['app_id'] ?? 0) || (int) $flowId !== 31) {
+        if (!$id || $id !== ($config['app_id'] ?? 0) || (int) $flowId !== 2001) {
             throw new \RuntimeException('OM_SYNC_IDENTITY_INVALID');
         }
     }
@@ -786,7 +786,7 @@ class U8ScheduleService
             if ($added) continue;
             $added = true;
             $job['enabled'] = $enabled;
-            $job['flow_id'] = 31;
+            $job['flow_id'] = 2001;
             $job['app_ids'] = $enabled ? [$config['app_id']] : [];
             $job['param'] = ['state' => '开立', 'limit' => 100];
             $job['extra'] = ['codeField' => 'code', 'detailFilters' => ['operation_type_code' => '委外加工', 'state' => '开立']];
@@ -808,13 +808,13 @@ class U8ScheduleService
         $order['app_id'] = $appId;
         $maker = self::resolveUserId($order['maker'] ?? '');
         $existing = DB::table(self::SYNC_TABLE)->where('app_id', $appId)->where('order_type', 'outsourceOrder')
-            ->where('order_no', $code)->where('flow_id', 31)->exists();
+            ->where('order_no', $code)->where('flow_id', 2001)->exists();
         $reason = ($order['state'] ?? null) !== '开立' ? 'OM_ORDER_NOT_OPEN'
             : ($existing ? 'OM_ALREADY_SYNCED_OR_CLAIMED' : (!$maker ? 'OM_MAKER_NOT_MAPPED' : 'READY_FOR_SYNC'));
-        $mapped = $this->buildFormData('outsourceOrder', $order, 31, parse_ini_file(__DIR__ . '/../config/flow/31.ini', true));
-        return ['code' => $code, 'app_id' => $appId, 'flow_id' => 31, 'reason' => $reason,
+        $mapped = $this->buildFormData('outsourceOrder', $order, 2001, parse_ini_file(__DIR__ . '/../config/flow/2001.ini', true));
+        return ['code' => $code, 'app_id' => $appId, 'flow_id' => 2001, 'reason' => $reason,
             'maker_raw' => $order['maker_raw'], 'oa_maker_id' => $maker, 'existing_sync_record' => $existing,
-            'mapped_main_fields' => count($mapped['form_data']) - 1, 'detail_rows' => count($mapped['form_data']['DATA_152']),
+            'mapped_main_fields' => count($mapped['form_data']) - 1, 'detail_rows' => count($mapped['form_data']['DATA_1002']),
             'flow_created' => false, 'audit_attempted' => false];
     }
 

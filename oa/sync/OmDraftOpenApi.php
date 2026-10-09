@@ -11,7 +11,7 @@ class OmDraftOpenApi extends \Ext\U8Open\service\OpenApiService {
   parent::initUser($user->user_accounts);
  }
  public function buildFlowParam(&$params,$data){
-  if((string)($data['flow_id']??'')!=='31'||($data['create_submit']??null)!==0)throw new \RuntimeException('OM_DRAFT_SCOPE_INVALID');
+  if((string)($data['flow_id']??'')!=='2001'||($data['create_submit']??null)!==0)throw new \RuntimeException('OM_DRAFT_SCOPE_INVALID');
   parent::buildFlowParam($params,$data);$params['create_submit']=0;
  }
  public function createFlow($data,?callable $callback=null){

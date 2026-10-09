@@ -34,8 +34,8 @@ namespace U8OmApi
     internal sealed class Identity { internal string Code; internal string Moid; }
     internal sealed class U8Runtime : IDisposable
     {
-        // 登录目标固定；001/2026 的身份校验必须与 Core.cs 保持一致。
-        internal const string Server = "192.0.2.11", Account = "001", Year = "2026", Operator = "1示例操作员", Subsystem = "AS";
+        // 登录目标固定；999/2026 的身份校验必须与 Core.cs 保持一致。
+        internal const string Server = "192.0.2.11", Account = "999", Year = "2026", Operator = "1示例操作员", Subsystem = "AS";
         private U8Login.clsLogin login;
         private readonly string loginDate;
         internal string Stage = "Login";

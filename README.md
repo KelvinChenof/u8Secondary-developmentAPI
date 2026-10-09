@@ -24,7 +24,7 @@ U8 端使用 C# 调用原生 SDK，提供 HTTP 接口；OA 端使用 PHP 完成�
 - 对应版本的用友 U8 SDK。
 - e-office OA 的 PHP 运行环境及数据库、Redis、OpenAPI 等依赖。
 
-仓库中的地址、主机名、操作员和 OA OpenAPI 凭据均为示例，使用前需按目标环境配置。用友 SDK 二进制、OA 商业框架、数据库和运行凭据不包含在本仓库中。
+仓库中的地址、主机名、操作员和 OA OpenAPI 凭据均为示例，流程、表单、控件、应用及外部数据库编号也使用统一示例值，使用前需按目标环境配置，详见 [示例配置](docs/EXAMPLE-CONFIG.md)。用友 SDK 二进制、OA 商业框架、数据库和运行凭据不包含在本仓库中。
 
 ## 目录
 
@@ -68,3 +68,7 @@ git pull --ff-only origin main
 - [示例环境与路径](docs/ENVIRONMENT.md)
 - [构建、部署与更新](docs/UPDATE.md)
 - [源码组成与依赖](docs/PROVENANCE.md)
+
+## 联系方式
+
+项目交流与对接咨询：[1927458701@qq.com](mailto:1927458701@qq.com)。

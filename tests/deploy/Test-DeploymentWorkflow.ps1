@@ -36,7 +36,7 @@ function Start-ScheduledTask{
  $script:productionTask.State='Running'
  $script:fixtureHosts=@([pscustomobject]@{ProcessId=2000;ExecutablePath=(Join-Path $script:fixtureRoot 'bin\U8OmApi.exe');CreationDate='NEW';CommandLine='U8OmApi.exe serve-unattended'})
  $log=Join-Path $script:fixtureRoot 'fixture-host.out.log'
- [IO.File]::WriteAllText($log,'HTTP_READY app_id=6 audit_enabled=True native_mode=isolated')
+ [IO.File]::WriteAllText($log,'HTTP_READY app_id=1001 audit_enabled=True native_mode=isolated')
  # 保留过期启动记录，确认新主机就绪判定不依赖该记录。
 }
 try{
@@ -46,11 +46,11 @@ try{
   New-Item -ItemType Directory -Path (Join-Path $script:fixtureRoot 'bin'),$package -Force|Out-Null
   Copy-Item -LiteralPath $fixtureOld -Destination (Join-Path $script:fixtureRoot 'bin\U8OmApi.exe')
   Copy-Item -LiteralPath $fixtureNew -Destination (Join-Path $package 'U8OmApi.exe')
-  [IO.File]::WriteAllText((Join-Path $script:fixtureRoot 'settings.json'),'{"audit_enabled":true,"oa_app_id":6,"listen_prefix":"http://192.0.2.10:18766/"}')
+  [IO.File]::WriteAllText((Join-Path $script:fixtureRoot 'settings.json'),'{"audit_enabled":true,"oa_app_id":1001,"listen_prefix":"http://192.0.2.10:18080/"}')
   [IO.File]::WriteAllText((Join-Path $script:fixtureRoot 'run-background.ps1'),'# 仅用于模拟测试')
   [IO.File]::WriteAllText((Join-Path $script:fixtureRoot 'bin\fixture.dll'),'FAKE_DEPENDENCY_NOT_LOADED')
   [IO.File]::WriteAllText((Join-Path $script:fixtureRoot 'preserved-claim.json'),'DO_NOT_MODIFY_OR_RELEASE')
-  [IO.File]::WriteAllText((Join-Path $script:fixtureRoot 'host-launch.json'),'{"pid":4132,"stdout":"stale-host.out.log","started":"2026-09-14T13:38:08"}')
+  [IO.File]::WriteAllText((Join-Path $script:fixtureRoot 'host-launch.json'),'{"pid":7001,"stdout":"stale-host.out.log","started":"2026-01-01T00:00:00"}')
   $entries=@(foreach($path in @('bin/U8OmApi.exe','settings.json','run-background.ps1','bin/fixture.dll')){@{path=$path;sha256=(Get-FileHash -LiteralPath (Join-Path $script:fixtureRoot $path)).Hash}})
   [IO.File]::WriteAllText((Join-Path $script:fixtureRoot 'manifest.json'),($entries|ConvertTo-Json))
   [IO.File]::WriteAllText((Join-Path $package 'runtime-dependencies.json'),(ConvertTo-Json -InputObject @($entries|Where-Object {$_.path -eq 'bin/fixture.dll'})))
@@ -75,7 +75,7 @@ try{
   $fixtureCode=$fixtureCode.Replace('(Join-Path $PSScriptRoot ''runtime-dependencies.json'')',(''''+(Join-Path $package 'runtime-dependencies.json')+''''))
   $fixtureCode=[regex]::Replace($fixtureCode,'(?m)^\$latch=.*$',('$latch='''+(Join-Path $script:fixtureRoot 'native-worker-pending.json')+''''))
   $fixtureCode=[regex]::Replace($fixtureCode,'(?m)^if\(!\(New-Object Security\.Principal\.WindowsPrincipal\(\$identity\)\).*RUN_AS_ADMINISTRATOR.*$','# 仅测试副本跳过本机提权校验')
-  $fixtureCode=$fixtureCode.Replace('Global\ExampleOrg-U8OmApi-001-2026',('Local\U8DeploymentFixture-'+[guid]::NewGuid().ToString('N'))).Replace('exit 0','return')
+  $fixtureCode=$fixtureCode.Replace('Global\ExampleOrg-U8OmApi-999-2026',('Local\U8DeploymentFixture-'+[guid]::NewGuid().ToString('N'))).Replace('exit 0','return')
   $fixtureCode=$fixtureCode.Replace($probeDefinition,'function Test-HostHttpReady($Settings){$script:probeCalls++;return $true}')
   $mode='Apply';if($scenario -like '*-inspect'){$mode='Inspect'}
   $failure=$null;$output=$null
@@ -90,7 +90,7 @@ try{
   }else{
    if($failure -or ($output|ConvertFrom-Json).status -cne 'U8_INTERFACE_DEPLOYED' -or $exeAfter -cne $newHash -or $script:productionTask.State -ne 'Running'){throw ('DEPLOYMENT_FIXTURE_FAILED '+$scenario+' error='+$failure)}
    if((Get-FileHash -LiteralPath (Join-Path $script:fixtureRoot ('backups\'+$newHash+'\U8OmApi.exe'))).Hash -cne $oldHash -or (Get-FileHash -LiteralPath (Join-Path $script:fixtureRoot ('backups\'+$newHash+'\U8OmApi.replaced-original.exe'))).Hash -cne $oldHash){throw 'ORIGINAL_BACKUP_CHANGED'}
-   if(($output|ConvertFrom-Json).host_pid -ne 2000 -or $script:probeCalls -lt 1 -or (Get-Content -LiteralPath (Join-Path $script:fixtureRoot 'host-launch.json') -Raw|ConvertFrom-Json).pid -ne 4132){throw 'STALE_LAUNCH_MARKER_STILL_CONTROLS_READINESS'}
+   if(($output|ConvertFrom-Json).host_pid -ne 2000 -or $script:probeCalls -lt 1 -or (Get-Content -LiteralPath (Join-Path $script:fixtureRoot 'host-launch.json') -Raw|ConvertFrom-Json).pid -ne 7001){throw 'STALE_LAUNCH_MARKER_STILL_CONTROLS_READINESS'}
   }
   if((Get-FileHash -LiteralPath (Join-Path $script:fixtureRoot 'settings.json')).Hash -cne $settingsBefore -or [IO.File]::ReadAllText((Join-Path $script:fixtureRoot 'preserved-claim.json')) -cne 'DO_NOT_MODIFY_OR_RELEASE'){throw 'SETTINGS_OR_CLAIM_CHANGED'}
   'PASS='+$scenario

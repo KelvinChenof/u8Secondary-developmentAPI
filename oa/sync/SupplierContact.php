@@ -1,26 +1,26 @@
 <?php
 namespace ExampleOrg\OmProduction;
 
-/** 只读查询 U8 供应商联系人，仅限应用 6、账套 001。 */
+/** 只读查询 U8 供应商联系人，仅限应用 1001、账套 999。 */
 final class SupplierContact
 {
  private $connection;
  public function lookup(array $order)
  {
-  if((string)($order['app_id'] ?? '')!=='6')throw new \RuntimeException('OM_CONTACT_APP_SCOPE');
+  if((string)($order['app_id'] ?? '')!=='1001')throw new \RuntimeException('OM_CONTACT_APP_SCOPE');
   $vendor=trim((string)($order['vendorcode'] ?? ''));
   $code=trim((string)($order['code'] ?? ''));
   if($vendor===''||$code==='')throw new \RuntimeException('OM_CONTACT_IDENTITY_MISSING');
   if(!$this->connection){
-   $config=\Illuminate\Support\Facades\DB::table('external_database')->where('database_id',2)->whereNull('deleted_at')->first(['driver','db_database']);
-   if(!$config||$config->driver!=='sqlsrv'||$config->db_database!=='UFMeta_001')throw new \RuntimeException('OM_CONTACT_DATABASE_SCOPE');
-   $this->connection=app(\App\EofficeApp\System\ExternalDatabase\Services\ExternalDatabaseService::class)->getExternalDatabasesConnect(2);
+   $config=\Illuminate\Support\Facades\DB::table('external_database')->where('database_id',5001)->whereNull('deleted_at')->first(['driver','db_database']);
+   if(!$config||$config->driver!=='sqlsrv'||$config->db_database!=='UFMeta_999')throw new \RuntimeException('OM_CONTACT_DATABASE_SCOPE');
+   $this->connection=app(\App\EofficeApp\System\ExternalDatabase\Services\ExternalDatabaseService::class)->getExternalDatabasesConnect(5001);
    if(!$this->connection)throw new \RuntimeException('OM_CONTACT_DATABASE_UNAVAILABLE');
   }
   try{
-   $identity=$this->connection->select('SELECT TOP 2 cCode,cVenCode,dDate FROM UFDATA_001_2020.dbo.OM_MOMain WHERE cCode = ? AND cVenCode = ?',[$code,$vendor]);
+   $identity=$this->connection->select('SELECT TOP 2 cCode,cVenCode,dDate FROM UFDATA_999_2026.dbo.OM_MOMain WHERE cCode = ? AND cVenCode = ?',[$code,$vendor]);
    if(count($identity)!==1||substr((string)$identity[0]->dDate,0,10)!==substr((string)($order['date'] ?? ''),0,10))throw new \RuntimeException('OM_CONTACT_ORDER_MISMATCH');
-   $rows=$this->connection->select('SELECT TOP 101 cContactCode,cVenCode,cContactName,cMobilePhone,bMajor FROM UFDATA_001_2020.dbo.Ven_Contact WHERE cVenCode = ?',[$vendor]);
+   $rows=$this->connection->select('SELECT TOP 101 cContactCode,cVenCode,cContactName,cMobilePhone,bMajor FROM UFDATA_999_2026.dbo.Ven_Contact WHERE cVenCode = ?',[$vendor]);
   }catch(\Throwable $e){
    if($e instanceof \RuntimeException && $e->getMessage()==='OM_CONTACT_ORDER_MISMATCH')throw $e;
    throw new \RuntimeException('OM_CONTACT_READ_FAILED');

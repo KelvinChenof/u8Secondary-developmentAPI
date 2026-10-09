@@ -44,7 +44,7 @@ $backup=Join-Path $root ('backups\'+$CandidateHash.ToUpperInvariant())
 $candidate=Join-Path $PSScriptRoot 'U8OmApi.exe'
 $newHash=$CandidateHash.ToUpperInvariant()
 $oldHash=$ExpectedCurrentHash.ToUpperInvariant()
-$latch=Join-Path $env:ProgramData 'ExampleOrg\U8OmApi\001-2026\native-worker-pending.json'
+$latch=Join-Path $env:ProgramData 'ExampleOrg\U8OmApi\999-2026\native-worker-pending.json'
 $identity=[Security.Principal.WindowsIdentity]::GetCurrent()
 if(!(New-Object Security.Principal.WindowsPrincipal($identity)).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)){throw 'RUN_AS_ADMINISTRATOR'}
 if($env:COMPUTERNAME -ine $ExpectedServer){throw 'WRONG_U8_SERVER'}
@@ -52,7 +52,7 @@ if((Get-FileHash -LiteralPath $candidate).Hash -cne $newHash){throw 'CANDIDATE_H
 if((Get-FileHash -LiteralPath $exe).Hash -cne $oldHash){throw 'CURRENT_VERSION_CHANGED_INSPECT_FIRST'}
 $settingsPath=Join-Path $root 'settings.json'
 $settings=Get-Content -LiteralPath $settingsPath -Raw|ConvertFrom-Json
-if($settings.audit_enabled -ne $true -or $settings.oa_app_id -ne 6 -or $settings.listen_prefix -cne 'http://192.0.2.10:18766/'){throw 'PRODUCTION_CONFIG_MISMATCH'}
+if($settings.audit_enabled -ne $true -or $settings.oa_app_id -ne 1001 -or $settings.listen_prefix -cne 'http://192.0.2.10:18080/'){throw 'PRODUCTION_CONFIG_MISMATCH'}
 $settingsHash=(Get-FileHash -LiteralPath $settingsPath).Hash
 $manifest=Get-Content -LiteralPath $manifestPath -Raw|ConvertFrom-Json
 $exeEntries=@($manifest|Where-Object {$_.path -ceq 'bin/U8OmApi.exe' -or $_.path -ceq 'bin\U8OmApi.exe'})
@@ -116,7 +116,7 @@ $attemptJson=@{at=(Get-Date).ToString('o');mode='AUTHORIZED_DEPLOYMENT';resumed_
 $attemptBytes=[Text.Encoding]::UTF8.GetBytes($attemptJson)
 $attemptStream=[IO.File]::Open($attemptPath,[IO.FileMode]::CreateNew,[IO.FileAccess]::Write,[IO.FileShare]::Read)
 try{$attemptStream.Write($attemptBytes,0,$attemptBytes.Length);$attemptStream.Flush($true)}finally{$attemptStream.Dispose()}
-$mutex=New-Object Threading.Mutex($false,'Global\ExampleOrg-U8OmApi-001-2026')
+$mutex=New-Object Threading.Mutex($false,'Global\ExampleOrg-U8OmApi-999-2026')
 $owned=$false;$taskDisabled=$false;$hostStopped=$false;$exeReplaced=$false;$manifestReplaced=$false
 try{
  # 持有与 worker 相同的原生锁，保证替换期间不能进入原生审核。
