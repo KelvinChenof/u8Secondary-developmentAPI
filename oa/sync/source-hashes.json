@@ -1,0 +1,6 @@
+{
+  "ext/u8open/config/om-api.php": "e6f50949a74d946963fb53c6c184ca0cf3ee95ba1ccde36ff9edb805be43173d",
+  "ext/u8open/config/flow/31.ini": "aa5ad1f3c4ef81cfd30544ec54f84ba12686c3a6fe5a01198d39a02cf207f300",
+  "ext/u8open/service/OutsourceOrderService.php": "eedb349b5ceaf17bb1309014d4db50249f0bff9432a9d537f7b035b15067c385",
+  "ext/u8open/service/U8ScheduleService.php": "cef2c9ea4370c0a8d3fb3551be04195eff337fc22cc3b555a5122a7d85e12355"
+}

@@ -1,0 +1,105 @@
+{
+  "origin": "脱敏源码清单",
+  "files": [
+    {
+      "path": "oa/auto-audit/activation.json",
+      "sha256": "495d8398812892710036aadbc8d6b1466d9f77730aece5253decfd32857e3689"
+    },
+    {
+      "path": "oa/auto-audit/AutoAudit.php",
+      "sha256": "f1e3b9753b6d7e08f3241fbcb717f9fc9fc342d389ab7d373cd32d51598f903d"
+    },
+    {
+      "path": "oa/auto-audit/hashes.json",
+      "sha256": "f6bb3077516f7e00d577432e2c9d6d7dd8770722157cfd7288b27ddd501362ad"
+    },
+    {
+      "path": "oa/auto-audit/read-key.ps1",
+      "sha256": "b4f414e3a4a5456f6252cc7cac571e8230b514484265ca7fda8b13a62e38195a"
+    },
+    {
+      "path": "oa/server/app/Console/Schedules/Third/U8OpenSchedule.php",
+      "sha256": "bc6ea15626a4f1252dc4e08384d7375effad2de3558561953641a920b65111c3"
+    },
+    {
+      "path": "oa/server/ext/u8open/config/flow/31.ini",
+      "sha256": "aa5ad1f3c4ef81cfd30544ec54f84ba12686c3a6fe5a01198d39a02cf207f300"
+    },
+    {
+      "path": "oa/server/ext/u8open/config/om-api.php",
+      "sha256": "e6f50949a74d946963fb53c6c184ca0cf3ee95ba1ccde36ff9edb805be43173d"
+    },
+    {
+      "path": "oa/server/ext/u8open/config/openApi.ini",
+      "sha256": "d08a3a50521f3cffd21c56041287ed527b65014c4849d7216e9d477e5c4e1de2"
+    },
+    {
+      "path": "oa/server/ext/u8open/config/schedule.php",
+      "sha256": "353c9a5d54f206195249cc6b1a39ca2dfc3571ba9b3f7ab5a604ab2df1fb251d"
+    },
+    {
+      "path": "oa/server/ext/u8open/config/U8OpenSchedule.php",
+      "sha256": "bc6ea15626a4f1252dc4e08384d7375effad2de3558561953641a920b65111c3"
+    },
+    {
+      "path": "oa/server/ext/u8open/outsend/outsourceOrderAutoAudit.php",
+      "sha256": "5fb68b59d0b9f080fa122b5d31fb1e9ffd0b7ced41086152206e3241180d7a30"
+    },
+    {
+      "path": "oa/server/ext/u8open/outsend/outsourceOrderOutsend.php",
+      "sha256": "6b8d3c29f18d937621f3083e8419001bb20e0c5dc94b4559f43ee59d8db09490"
+    },
+    {
+      "path": "oa/server/ext/u8open/service/OpenApiService.php",
+      "sha256": "bfc23c22435bef229d2d926dca20abaf4ca861d73b55cf49e17e941a023f1a36"
+    },
+    {
+      "path": "oa/server/ext/u8open/service/OutsourceOrderService.php",
+      "sha256": "eedb349b5ceaf17bb1309014d4db50249f0bff9432a9d537f7b035b15067c385"
+    },
+    {
+      "path": "oa/server/ext/u8open/service/PayrequestService.php",
+      "sha256": "cb7d9da9b2b443cd56045e2e1ee37cc1bcda338f2944bc0227ff8c217130d456"
+    },
+    {
+      "path": "oa/server/ext/u8open/service/PayService.php",
+      "sha256": "752bbe445a04f18aeb3f0484ce512aa9073108d5b82c90bbf343694d541ea2da"
+    },
+    {
+      "path": "oa/server/ext/u8open/service/PurchaseorderService.php",
+      "sha256": "8fd9c27403612b687705d86ecfc5973b11cc8cbe798e5bde04547b17a8441caa"
+    },
+    {
+      "path": "oa/server/ext/u8open/service/U8OpenBaseService.php",
+      "sha256": "ec6826e6a9b469b7794c92c61f7eedd7c6fb02cb07d2870e35f2a979b918d824"
+    },
+    {
+      "path": "oa/server/ext/u8open/service/U8ScheduleService.php",
+      "sha256": "cef2c9ea4370c0a8d3fb3551be04195eff337fc22cc3b555a5122a7d85e12355"
+    },
+    {
+      "path": "oa/sync/DraftSync.php",
+      "sha256": "5a3102b7c3d03a89dea122155300ce79537ee1c3ad58951daf3b8e10c0386c02"
+    },
+    {
+      "path": "oa/sync/OmDraftOpenApi.php",
+      "sha256": "26536cf01638154a9f626caafd817143031d9054175a8618c8f6cf40726ca9ae"
+    },
+    {
+      "path": "oa/sync/run-sync.ps1",
+      "sha256": "d4ba0e434ff8c91c47edd7bf3e846846903df9ac41add86f53c9b1ce2b160d54"
+    },
+    {
+      "path": "oa/sync/source-hashes.json",
+      "sha256": "b05f5ed10e7d92e66c4872dbd6a73184735fdee499549c283743c951b1eb9077"
+    },
+    {
+      "path": "oa/sync/SupplierContact.php",
+      "sha256": "3988157143285f2f7f91f004217daa47ee752145683b9eac34b3fd31c7e0b587"
+    },
+    {
+      "path": "oa/sync/sync.php",
+      "sha256": "0b9a0c1a9679c2eb3bd64293b9ed903b62313477a72d30e9796bfd75fbe1449d"
+    }
+  ]
+}

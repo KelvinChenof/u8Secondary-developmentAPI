@@ -1,0 +1,18 @@
+# 构建产物、发布包和运行记录不入库。
+*.exe
+*.pdb
+*.log
+*.dpapi
+*.raw
+*.zip
+__pycache__/
+release/
+tests/deploy/deployment-fixtures/
+backups/
+claims/
+native-worker-pending.json
+credentials.json
+settings.local.json
+
+# 用友 SDK 由本机授权环境导入，不上传公开仓库。
+*.dll

@@ -1,0 +1,21 @@
+{
+  "at": "2026-10-09T04:40:53.291285+00:00",
+  "variant": "脱敏参考版本",
+  "csharp_core": 59,
+  "resources": 8,
+  "worker_transport": 14,
+  "isolated_host": 14,
+  "oa_envelope": 6,
+  "oa_historical_context": 4,
+  "deployment_task_selection": 4,
+  "deployment_workflow": 6,
+  "total_checks": 115,
+  "php_syntax": "通过",
+  "powershell_syntax": "通过",
+  "oa_hash_manifests": "通过",
+  "x86_build": "通过",
+  "startup_check": "通过",
+  "live_u8_calls": 0,
+  "real_deployments": 0,
+  "business_source_equivalence": "仅替换环境信息；独立测试通过"
+}
